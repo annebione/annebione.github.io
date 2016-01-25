@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>vuejs-spotify-playlist</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="node_modules/sweetalert/dist/sweetalert.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+
+<body>
+
+	<div id="sign-in" v-show="status.loading || ! userAuthenticated" v-cloak>
+		<div id="sign-in-inner">
+	    	<img src="img/log_in-desktop-large.png" v-on:click="fetchAuth()" v-show="! userAuthenticated" v-cloak>
+	    	<h3 v-show="status.loading" v-cloak>{{ status.task }}</h3>
+		</div>
+	</div>
+
+	<div class="container" id="app">	
+
+		<div class="row" v-if="userAuthenticated && ! status.loading">
+			<div class="col-md-12">
+				
+				<div class="text-center">
+					<button class="btn btn-success" v-show="topTracks.length" v-on:click="fetchArtistIdsFromUserPlaylists()">
+						Generate new playlist
+					</button>
+
+					<button class="btn btn-success" 
+						    v-show="topTracks.length" 
+						    v-on:click="savePlaylist()"
+						    :disabled="playlistHasBeenSaved">
+
+						Save playlist
+					</button>					
+				</div>
+
+		  		<table class="table table-hover"
+		  			   v-if="topTracks.length">
+
+		  			<thead>
+		  				<tr>
+		  					<th class="col-md-1 col-sm-1 col-xs-1"></th>
+			  				<th class="col-md-3 col-sm-3 col-xs-3">Track</th>
+			  				<th class="col-md-3 col-sm-3 col-xs-3">Artist</th>
+			  				<th class="col-md-3 col-sm-3 col-xs-3">Album</th>
+			  				<th class="col-md-1 col-sm-1 col-xs-1 text-center hidden-xs"><i class="fa fa-clock-o"></i></th>
+			  				<th class="col-md-1 col-md-1 col-xs-1 text-center hidden-xs"><i class="fa fa-heart"></i></th>
+			  			</tr>
+		  			</thead>
+					<tbody>
+						<tr v-for="track in topTracks"
+							v-on:dblclick="playTrack(track)"
+							v-bind:class="{'playing-track': currentTrack == track}">
+
+							<td>
+								<i class="fa fa-play-circle controller-icon" 
+								   v-if="currentTrack !== track"
+								   v-on:click="playTrack(track)"></i>
+
+								<i class="fa fa-stop-circle controller-icon" 
+								   v-if="currentTrack == track"
+								   style="color: #fff"
+								   v-on:click="pauseTrack()"></i>
+							</td>						
+							<td>{{ track.title }}</td>
+							<td>{{ track.artist }}</td>
+							<td>{{ track.album }}</td>
+							<td class="text-center hidden-xs">
+								{{ track.duration }}
+							</td>
+							<td class="text-center v-align-middle hidden-xs">
+								<div class="progress">
+									<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ track.popularity }}" aria-valuemin="0" aria-valuemax="100" v-bind:style="{ width: track.popularity + '%' }"></div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+		  		</table>
+
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+<script src="js/bundle.js"></script>
+</html>
