@@ -3,7 +3,6 @@ published: true
 title: Matem o formulário de contato
 layout: post
 ---
-## Ao menos como ele é hoje, claro.
 
 É normal.  Acontece todo dia na internet: O usuário entre em na página de uma empresa e se interessa por um produto ou serviço oferecido. Ele decide entrar em contato.
 
