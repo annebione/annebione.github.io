@@ -3,6 +3,6 @@ pygments: true
 markdown: kramdown
 url: http://annebione.github.io
 title: Anne Bione 
-tagline: Front-end, UX, Javascript and eveything that comes with it.
+tagline: Engenharia de software. UX. JavaScript. Projetos. Política.
 description: Front-end, UX, Javascript and eveything that comes with it.
 paginate: 5
